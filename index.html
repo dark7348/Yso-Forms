@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050805">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2lWMAKiv/5Ct1LoA7dVseCyGuOyedKiDSfeUrDjalU8=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https://tmbrsltapmoffvshepse.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <title>Editais EB do Yso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -178,6 +180,7 @@ footer a{color:var(--gr)}
 <footer id="ft">Créditos Urahara/RBL Tuber93_hat</footer>
 <div id="toast" role="status"></div>
 <script>
+if(window.top!==window.self){try{window.top.location=window.self.location}catch(e){document.documentElement.innerHTML=''}}
 const CFG={url:'https://tmbrsltapmoffvshepse.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtYnJzbHRhcG1vZmZ2c2hlcHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NDA0NjMsImV4cCI6MjEwNjIxNjQ2M30.Nj65dZI7shtxzD7g9a1ZHDgnr8LFJ64snC0JpgZUNIc',guild:'1540534382563950694'};
 const PREFS=[
 ['Aparência',[['bg_anim','Fundo animado','bool',true],['spot','Brilho que segue o mouse nos cards','bool',true],['anim','Animações do site','bool',true],['radius','Arredondamento dos elementos','sel','10',[['0','Reto'],['10','Padrão'],['18','Bem arredondado']]],['fsize','Tamanho do texto','sel','16',[['15','Pequeno'],['16','Normal'],['18','Grande']]],['cw','Largura mínima dos cards','sel','260',[['220','Estreito'],['260','Padrão'],['340','Largo']]],['ratio','Proporção da foto dos editais','sel','16/9',[['16/9','Widescreen'],['4/3','Clássica'],['1/1','Quadrada']]],['sticky','Cabeçalho fixo ao rolar','bool',true],['logo','Formato da foto do servidor','sel','50%',[['50%','Redonda'],['10px','Quadrada']]],['badges','Mostrar selos nos cards','bool',true],['desc','Mostrar descrição nos cards','bool',true],['splash_s','Duração da abertura','sel','4.2',[['2.5','Curta'],['4.2','Padrão'],['6','Longa']]]]],
@@ -190,7 +193,16 @@ const PREFS=[
 ['Painel ADM',[['tab0','Aba inicial do painel','sel','dash',[['dash','Visão geral'],['resp','Respostas'],['build','Construtor'],['cfg','Configurações'],['pref','Preferências'],['adm','ADMs'],['logs','Logs']]],['limit','Respostas carregadas por edital','sel','1000',[['500','500'],['1000','1000'],['2000','2000']]],['dash_d','Dias no indicador da Visão geral','sel','7',[['7','7'],['15','15'],['30','30']]],['rsort','Ordem padrão das respostas','sel','d',[['d','Mais recentes'],['a','Mais antigas']]],['csv_sep','Separador do CSV','sel',',',[[',','Vírgula'],[';','Ponto e vírgula (Excel BR)']]],['conf_status','Confirmar antes de mudar o status','bool',false],['toast_s','Duração dos avisos (segundos)','sel','4',[['2','2'],['4','4'],['7','7']]],['notice_k','Cor do aviso do topo','sel','ok',[['ok','Verde'],['warn','Amarelo'],['bad','Vermelho']]]]]
 ];
 const DEF={};PREFS.forEach(g=>g[1].forEach(x=>{DEF[x[0]]=x[3]}));
-const pv=k=>{const v=((S.settings||{}).prefs||{})[k];return v===undefined?DEF[k]:v};
+const PM={};PREFS.forEach(g=>g[1].forEach(x=>{PM[x[0]]=x}));
+const pv=k=>{
+  const x=PM[k],v=((S.settings||{}).prefs||{})[k];
+  if(v===undefined||v===null)return x[3];
+  if(x[2]==='bool')return v===true||v==='true'?true:v===false||v==='false'?false:x[3];
+  if(x[2]==='sel')return x[4].some(y=>String(y[0])===String(v))?String(v):x[3];
+  if(x[2]==='num')return Math.max(0,Math.min(3600,+v||0));
+  if(x[2]==='url')return /^https:\/\//.test(String(v))?String(v).slice(0,300):'';
+  return String(v).slice(0,200);
+};
 const ORGS=['SGEx','OAEx','MPM','DPU','RCE'];
 const TYPES={short:'Resposta curta',long:'Parágrafo',radio:'Múltipla escolha',checkbox:'Caixas de seleção',select:'Lista suspensa',scale:'Escala 1 a 5',date:'Data',number:'Número',email:'E-mail',roblox:'Roblox (usuário ou ID)',discord:'Discord (@ ou ID)'};
 const STL={em_analise:'Em análise',aprovado:'Aprovado',reprovado:'Reprovado'};
@@ -266,7 +278,7 @@ async function init(){
     await loadRoles();
     const a=await sb.rpc('is_admin');
     S.admin=a.data===true;
-    S.dbg=`ID Discord lido: ${S.did||'(vazio)'} | ADM: ${S.admin?'sim':'não'} | consulta admins: ${a.error?a.error.message:'ok'} | cargos: ${S.rolesOk?S.roles.length+' encontrados':'não carregaram'}`;
+    S.dbg=`ID Discord lido: ${S.did||'(vazio)'} | ADM: ${S.admin?'sim':'não'} | consulta admins: ${a.error?(a.error.code||'erro'):'ok'} | cargos: ${S.rolesOk?S.roles.length+' encontrados':'não carregaram'}`;
     await loadData();
   }
   sb.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT'){location.reload()}});
@@ -604,7 +616,7 @@ document.addEventListener('click',async ev=>{
   const b=ev.target.closest('[data-a]');if(!b)return;
   const a=b.dataset.a,v=b.dataset.v;
   if(a==='login'){await sb.auth.signInWithOAuth({provider:'discord',options:{scopes:'identify',redirectTo:location.origin+location.pathname}})}
-  else if(a==='logout'){sessionStorage.removeItem('pt');await sb.auth.signOut();location.reload()}
+  else if(a==='logout'){try{Object.keys(localStorage).filter(k=>k.startsWith('ed_')).forEach(k=>localStorage.removeItem(k))}catch(x){}sessionStorage.removeItem('pt');await sb.auth.signOut();location.reload()}
   else if(a==='nav'){syncEd();S.view=v;render()}
   else if(a==='open'){S.org=v;S.view='form';render();scrollTo(0,0)}
   else if(a==='submit')submit();
