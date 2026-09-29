@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editais EB do Yso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--bg:#070b07;--pn:#101810;--ln:#263826;--gr:#3fbf5f;--tx:#e2ebdf;--mu:#8b9c88;--rd:#e0564f;--am:#e0a83f}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:70px}
+body{background:var(--bg);color:var(--tx);font:16px/1.5 Barlow,system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:'Barlow Condensed',Impact,sans-serif;font-weight:700;letter-spacing:.02em}
+header{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:2px solid var(--gr);position:sticky;top:0;background:var(--bg);z-index:5}
+header h1{font-size:26px;flex:1}
+nav{display:flex;gap:8px}
+.logo{width:44px;height:44px;border:2px solid var(--gr);object-fit:cover;background:var(--pn);display:block}
+main{max-width:1000px;margin:0 auto;padding:24px 16px 80px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:var(--pn);border:1px solid var(--ln);cursor:pointer;text-align:left;color:inherit;font:inherit;padding:0;display:block;width:100%}
+.card:hover,.card:focus-visible{border-color:var(--gr);outline:none}
+.card .cv{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#0c130c}
+.card .cb{padding:14px}
+.card h3{font-size:24px}
+.card p{color:var(--mu);font-size:14px}
+.ph{background:repeating-linear-gradient(45deg,#0c130c,#0c130c 10px,#101810 10px,#101810 20px)}
+.badge{display:inline-block;padding:2px 8px;border:1px solid var(--ln);font-size:13px;color:var(--mu);margin-top:8px}
+.badge.on{border-color:var(--gr);color:var(--gr)}
+.badge.off{border-color:var(--rd);color:var(--rd)}
+button,.btn{font:600 15px Barlow,sans-serif;background:var(--gr);color:#031006;border:0;padding:9px 16px;cursor:pointer}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+button.g.act{border-color:var(--gr);color:var(--gr)}
+button.d{background:var(--rd);color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gr);outline-offset:2px}
+input,select,textarea{width:100%;background:#0b110b;color:var(--tx);border:1px solid var(--ln);padding:9px 10px;font:inherit}
+textarea{resize:vertical}
+.q{background:var(--pn);border:1px solid var(--ln);padding:16px;margin-bottom:12px}
+.ql{display:block;font-weight:600;margin-bottom:8px}
+.opt{display:flex;gap:8px;align-items:center;padding:4px 0;cursor:pointer}
+.opt input{width:auto}
+.sc{display:flex;gap:8px;flex-wrap:wrap}
+.sc .opt{border:1px solid var(--ln);padding:6px 14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:0 0 auto}
+.row .fl{flex:1 1 200px}
+.fr{background:var(--pn);border:1px solid var(--ln);padding:12px;margin-bottom:10px;display:grid;gap:8px}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top;font-size:14px}
+th{color:var(--mu);font-weight:600}
+.st{font-weight:600}
+.st.em_analise{color:var(--am)}.st.aprovado{color:var(--gr)}.st.reprovado{color:var(--rd)}
+details{background:var(--pn);border:1px solid var(--ln);padding:10px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:600}
+.ans{margin-top:8px;display:grid;gap:6px}
+.ans b{color:var(--mu);font-weight:500;display:block;font-size:13px}
+.hero{padding:40px 0;text-align:left}
+.hero h2{font-size:clamp(34px,7vw,64px);line-height:1}
+.hero p{color:var(--mu);max-width:56ch;margin:12px 0 20px}
+.msg{padding:14px;border:1px solid var(--am);color:var(--am);margin-bottom:16px}
+label.f{display:block;margin:10px 0 4px;color:var(--mu);font-size:14px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--pn);border:1px solid var(--gr);padding:10px 18px;z-index:9;display:none;max-width:90vw}
+#toast.bad{border-color:var(--rd)}
+.who{color:var(--mu);font-size:14px}
+@media (max-width:600px){header{flex-wrap:wrap}header h1{font-size:22px}}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+</style>
+</head>
+<body>
+<header id="hd"></header>
+<main id="app"></main>
+<div id="toast" role="status"></div>
+<script>
+const CFG={url:'https://tmbrsltapmoffvshepse.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtYnJzbHRhcG1vZmZ2c2hlcHNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NDA0NjMsImV4cCI6MjEwNjIxNjQ2M30.Nj65dZI7shtxzD7g9a1ZHDgnr8LFJ64snC0JpgZUNIc',guild:'1540534382563950694'};
+const ORGS=['SGEx','OAEx','MPM','DPU','RCE'];
+const TYPES={short:'Resposta curta',long:'Parágrafo',radio:'Múltipla escolha',checkbox:'Caixas de seleção',select:'Lista suspensa',scale:'Escala 1 a 5',date:'Data',number:'Número',email:'E-mail',roblox:'Roblox (usuário ou ID)',discord:'Discord (@ ou ID)'};
+const STL={em_analise:'Em análise',aprovado:'Aprovado',reprovado:'Reprovado'};
+const configured=!/COLE_AQUI/.test(CFG.url+CFG.key);
+const sb=configured?supabase.createClient(CFG.url,CFG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+const S={user:null,did:'',name:'',roles:[],rolesOk:false,admin:false,forms:{},settings:{title:'Editais EB do Yso',server_image:''},view:'home',org:null,tab:'resp',ed:null,edOrg:'SGEx',resp:[],respOrg:'SGEx',logs:[],busy:false,warn:''};
+const $=(s,r=document)=>r.querySelector(s);
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=u=>/^(https:\/\/|data:image\/)/.test(u||'')?u:'';
+const img=(u,c)=>safeUrl(u)?`<img class="${c}" src="${esc(u)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:`<div class="${c} ph"></div>`;
+const loc=i=>{if(!i)return'';const d=new Date(i);return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,16)};
+const fmt=i=>i?new Date(i).toLocaleString('pt-BR'):'';
+const uid=()=>'q'+Math.random().toString(36).slice(2,9);
+const clone=o=>JSON.parse(JSON.stringify(o));
+let tt;
+function toast(m,bad){const t=$('#toast');t.textContent=m;t.className=bad?'bad':'';t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',4000)}
+function defForm(o){return{org:o,title:o,description:'',image:'',published:false,opens_at:null,closes_at:null,role_ids:[],fields:[]}}
+async function log(action,detail){if(!S.admin)return;try{await sb.from('logs').insert({actor:S.name,actor_id:S.did,action,detail:String(detail||'').slice(0,500)})}catch(e){}}
+async function loadRoles(sess){
+  S.roles=[];S.rolesOk=false;
+  let tk=sess.provider_token||sessionStorage.getItem('pt')||'';
+  if(sess.provider_token)sessionStorage.setItem('pt',sess.provider_token);
+  if(!tk||!CFG.guild||/COLE_AQUI/.test(CFG.guild))return;
+  try{
+    const r=await fetch(`https://discord.com/api/v10/users/@me/guilds/${encodeURIComponent(CFG.guild)}/member`,{headers:{Authorization:'Bearer '+tk}});
+    if(r.ok){const j=await r.json();S.roles=Array.isArray(j.roles)?j.roles.map(String):[];S.rolesOk=true}
+    else if(r.status===401){sessionStorage.removeItem('pt');S.warn='Sessão do Discord expirada. Saia e entre de novo para atualizar seus cargos.'}
+    else if(r.status===404){S.warn='Você não está no servidor do Discord configurado.'}
+  }catch(e){S.warn='Não foi possível verificar seus cargos agora. Tente novamente.'}
+}
+async function loadData(){
+  const [f,s]=await Promise.all([sb.from('forms').select('*'),sb.from('settings').select('*').eq('id',1).maybeSingle()]);
+  S.forms={};
+  ORGS.forEach(o=>S.forms[o]=defForm(o));
+  (f.data||[]).forEach(x=>{if(ORGS.includes(x.org))S.forms[x.org]={...defForm(x.org),...x,fields:Array.isArray(x.fields)?x.fields:[],role_ids:Array.isArray(x.role_ids)?x.role_ids.map(String):[]}});
+  if(s.data)S.settings={...S.settings,...s.data};
+  if(f.error||s.error)S.warn=S.warn||'Falha ao carregar dados do servidor.';
+}
+async function init(){
+  if(!configured){render();return}
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){
+    S.user=session.user;
+    const m=session.user.user_metadata||{};
+    S.did=String(m.provider_id||m.sub||'');
+    S.name=m.custom_claims?.global_name||m.full_name||m.name||'Usuário';
+    await loadRoles(session);
+    const a=await sb.from('admins').select('discord_id').eq('discord_id',S.did).maybeSingle();
+    S.admin=!!a.data;
+    await loadData();
+  }else{
+    const s=await sb.from('settings').select('*').eq('id',1).maybeSingle();
+    if(s.data)S.settings={...S.settings,...s.data};
+  }
+  sb.auth.onAuthStateChange(ev=>{if(ev==='SIGNED_OUT'){location.reload()}});
+  render();
+}
+function canAccess(f){
+  if(S.admin)return true;
+  if(!f.role_ids.length)return true;
+  if(!S.rolesOk)return false;
+  return f.role_ids.some(r=>S.roles.includes(r));
+}
+function state(f){
+  const n=Date.now();
+  if(f.opens_at&&n<new Date(f.opens_at))return'soon';
+  if(f.closes_at&&n>new Date(f.closes_at))return'closed';
+  return'open';
+}
+function header(){
+  $('#hd').innerHTML=`<h1>${esc(S.settings.title||'Editais')}</h1><nav>${S.user?`<button class="g ${S.view==='home'?'act':''}" data-a="nav" data-v="home">Editais</button>${S.admin?`<button class="g ${S.view==='admin'?'act':''}" data-a="nav" data-v="admin">Painel ADM</button>`:''}<button class="g" data-a="logout">Sair</button>`:''}</nav>${img(S.settings.server_image,'logo')}`;
+}
+function render(){
+  header();
+  const a=$('#app');
+  if(!configured){a.innerHTML='<div class="msg">Configure CFG.url, CFG.key e CFG.guild no início do script.</div>';return}
+  if(!S.user){a.innerHTML=`<section class="hero"><h2>Editais</h2><p>Entre com sua conta do Discord para ver os editais abertos para os seus cargos.</p><button data-a="login">Entrar com Discord</button></section>`;return}
+  const w=S.warn?`<div class="msg">${esc(S.warn)}</div>`:'';
+  if(S.view==='form')return renderForm(w);
+  if(S.view==='admin'&&S.admin)return renderAdmin(w);
+  const list=ORGS.map(o=>S.forms[o]).filter(f=>S.admin||f.published);
+  a.innerHTML=w+`<h2 style="font-size:34px;margin-bottom:16px">Editais</h2>${list.length?`<div class="grid">${list.map(f=>{const s=state(f);const ok=canAccess(f);return`<button class="card" data-a="open" data-v="${f.org}">${img(f.image,'cv')}<div class="cb"><h3>${esc(f.title||f.org)}</h3><p>${esc(f.description).slice(0,120)}</p><span class="badge ${!f.published?'off':s==='open'&&ok?'on':''}">${!f.published?'Rascunho (só ADM)':!ok?'Sem permissão':s==='open'?'Aberto':s==='soon'?'Abre em breve':'Encerrado'}</span></div></button>`}).join('')}</div>`:'<p class="who">Nenhum edital no ar no momento.</p>'}`;
+}
+function fieldHtml(f){
+  const n=`name="${esc(f.id)}"`,o=f.options||[];let i='';
+  if(f.type==='long')i=`<textarea ${n} rows="4" maxlength="4000"></textarea>`;
+  else if(f.type==='radio')i=o.map(x=>`<label class="opt"><input type="radio" ${n} value="${esc(x)}">${esc(x)}</label>`).join('');
+  else if(f.type==='checkbox')i=o.map(x=>`<label class="opt"><input type="checkbox" ${n} value="${esc(x)}">${esc(x)}</label>`).join('');
+  else if(f.type==='select')i=`<select ${n}><option value="">Selecione</option>${o.map(x=>`<option>${esc(x)}</option>`).join('')}</select>`;
+  else if(f.type==='scale')i=`<div class="sc">${[1,2,3,4,5].map(x=>`<label class="opt"><input type="radio" ${n} value="${x}">${x}</label>`).join('')}</div>`;
+  else if(f.type==='date')i=`<input type="date" ${n}>`;
+  else if(f.type==='number')i=`<input type="number" ${n}>`;
+  else if(f.type==='email')i=`<input type="email" ${n} maxlength="200">`;
+  else if(f.type==='roblox')i=`<input type="text" ${n} maxlength="60" placeholder="Usuário ou ID do Roblox">`;
+  else if(f.type==='discord')i=`<input type="text" ${n} maxlength="60" placeholder="@usuario ou ID">`;
+  else i=`<input type="text" ${n} maxlength="500">`;
+  return`<div class="q"><span class="ql">${esc(f.label)}${f.required?' *':''}</span>${i}</div>`;
+}
+function renderForm(w){
+  const f=S.forms[S.org];const a=$('#app');
+  if(!f||(!f.published&&!S.admin)){S.view='home';return render()}
+  const s=state(f);
+  let body;
+  if(!canAccess(f))body='<div class="msg">Você não tem os cargos necessários para este edital.</div>';
+  else if(s==='soon')body=`<div class="msg">Este edital abre em ${fmt(f.opens_at)}.</div>`;
+  else if(s==='closed')body=`<div class="msg">Este edital foi encerrado em ${fmt(f.closes_at)}.</div>`;
+  else if(!f.fields.length)body='<div class="msg">Este edital ainda não tem perguntas.</div>';
+  else body=`<div id="fm">${f.fields.map(fieldHtml).join('')}<button data-a="submit" id="sb">Enviar respostas</button></div>`;
+  a.innerHTML=w+`<button class="g" data-a="nav" data-v="home" style="margin-bottom:16px">Voltar</button>${img(f.image,'card cv')}<h2 style="font-size:40px;margin:16px 0 4px">${esc(f.title)}</h2><p class="who" style="white-space:pre-wrap;margin-bottom:20px">${esc(f.description)}</p>${body}`;
+}
+function collect(f){
+  const root=$('#fm'),a={};
+  for(const q of f.fields){
+    let v;
+    if(q.type==='checkbox')v=[...root.querySelectorAll(`[name="${q.id}"]:checked`)].map(x=>x.value);
+    else if(q.type==='radio'||q.type==='scale'){const c=root.querySelector(`[name="${q.id}"]:checked`);v=c?c.value:''}
+    else v=(root.querySelector(`[name="${q.id}"]`)?.value||'').trim().slice(0,4000);
+    if(q.required&&(!v||!v.length))return{err:`Preencha: ${q.label}`};
+    if(q.type==='email'&&v&&!/^\S+@\S+\.\S+$/.test(v))return{err:`E-mail inválido em: ${q.label}`};
+    a[q.id]={q:q.label,v};
+  }
+  return{a};
+}
+async function submit(){
+  if(S.busy)return;
+  const f=S.forms[S.org];
+  if(!canAccess(f)||state(f)!=='open')return toast('Este edital não está disponível para você.',1);
+  const r=collect(f);if(r.err)return toast(r.err,1);
+  S.busy=true;const b=$('#sb');if(b)b.disabled=true;
+  const {error}=await sb.from('responses').insert({org:S.org,discord_id:S.did,discord_name:S.name,answers:r.a});
+  S.busy=false;
+  if(error){if(b)b.disabled=false;return toast(error.code==='23505'?'Você já enviou uma resposta para este edital.':'Não foi possível enviar. Tente novamente.',1)}
+  $('#app').innerHTML='<section class="hero"><h2>Resposta enviada</h2><p>Sua inscrição foi registrada. Aguarde o contato da administração.</p><button data-a="nav" data-v="home">Voltar aos editais</button></section>';
+}
+function renderAdmin(w){
+  const tabs=[['resp','Respostas'],['build','Construtor'],['cfg','Configurações'],['logs','Logs']];
+  $('#app').innerHTML=w+`<div class="tabs">${tabs.map(t=>`<button class="g ${S.tab===t[0]?'act':''}" data-a="tab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div><div id="tb"></div>`;
+  if(S.tab==='resp')tabResp();else if(S.tab==='build')tabBuild();else if(S.tab==='cfg')tabCfg();else tabLogs();
+}
+const orgSel=(id,v)=>`<select id="${id}" style="width:auto">${ORGS.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`;
+async function tabResp(){
+  const t=$('#tb');t.innerHTML='<p class="who">Carregando...</p>';
+  const {data,error}=await sb.from('responses').select('*').eq('org',S.respOrg).order('created_at',{ascending:false}).limit(1000);
+  if(error){t.innerHTML='<div class="msg">Falha ao carregar respostas.</div>';return}
+  S.resp=data||[];
+  t.innerHTML=`<div class="row" style="margin-bottom:12px">${orgSel('ro',S.respOrg)}<select id="rf" style="width:auto"><option value="">Todos os status</option>${Object.entries(STL).map(e=>`<option value="${e[0]}">${e[1]}</option>`).join('')}</select><input id="rq" class="fl" placeholder="Buscar por nome, ID ou resposta"><button class="g" data-a="csv">Exportar CSV</button></div><div id="rl"></div>`;
+  listResp();
+}
+function listResp(){
+  const st=$('#rf').value,q=$('#rq').value.toLowerCase();
+  const l=S.resp.filter(r=>(!st||r.status===st)&&(!q||JSON.stringify([r.discord_name,r.discord_id,r.answers]).toLowerCase().includes(q)));
+  $('#rl').innerHTML=l.length?l.map(r=>`<details><summary>${esc(r.discord_name)} · ${esc(r.discord_id)} · <span class="st ${esc(r.status)}">${esc(STL[r.status]||r.status)}</span> · ${fmt(r.created_at)}</summary><div class="ans">${Object.values(r.answers||{}).map(x=>`<div><b>${esc(x.q)}</b>${esc(Array.isArray(x.v)?x.v.join(', '):x.v)}</div>`).join('')}</div><div class="row" style="margin-top:12px">${Object.entries(STL).map(e=>`<button class="${r.status===e[0]?'':'g'}" data-a="status" data-v="${r.id}" data-s="${e[0]}">${e[1]}</button>`).join('')}</div></details>`).join(''):'<p class="who">Nenhuma resposta encontrada.</p>';
+}
+async function setStatus(id,s){
+  if(!STL[s]||S.busy)return;
+  S.busy=true;
+  const r=S.resp.find(x=>String(x.id)===String(id));
+  const {error}=await sb.from('responses').update({status:s}).eq('id',id);
+  S.busy=false;
+  if(error)return toast('Não foi possível alterar o status.',1);
+  if(r){await log('status',`${S.respOrg}: ${r.discord_name} (${r.discord_id}) de ${STL[r.status]} para ${STL[s]}`);r.status=s}
+  listResp();toast('Status atualizado.');
+}
+function csv(){
+  const qs=[];S.resp.forEach(r=>Object.entries(r.answers||{}).forEach(([k,x])=>{if(!qs.find(y=>y[0]===k))qs.push([k,x.q])}));
+  const c=v=>{let s=String(v??'');if(/^[=+\-@]/.test(s))s="'"+s;return'"'+s.replace(/"/g,'""')+'"'};
+  const rows=[['Data','Discord','ID','Status',...qs.map(q=>q[1])].map(c).join(',')];
+  S.resp.forEach(r=>rows.push([fmt(r.created_at),r.discord_name,r.discord_id,STL[r.status]||r.status,...qs.map(q=>{const x=(r.answers||{})[q[0]];return x?(Array.isArray(x.v)?x.v.join('; '):x.v):''})].map(c).join(',')));
+  const u=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\n')],{type:'text/csv;charset=utf-8'}));
+  const a=document.createElement('a');a.href=u;a.download=`respostas-${S.respOrg}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);
+  log('exportar',`CSV ${S.respOrg}`);
+}
+function tabBuild(){
+  if(!S.ed||S.ed.org!==S.edOrg)S.ed=clone(S.forms[S.edOrg]);
+  const e=S.ed;
+  $('#tb').innerHTML=`<div class="row" style="margin-bottom:12px">${orgSel('eo',S.edOrg)}</div><label class="f">Título</label><input id="e_t" maxlength="120" value="${esc(e.title)}"><label class="f">Descrição e regras do edital</label><textarea id="e_d" rows="5" maxlength="4000">${esc(e.description)}</textarea><h3 style="font-size:26px;margin:20px 0 10px">Perguntas</h3><div id="ed">${e.fields.map(frHtml).join('')}</div><div class="row"><button class="g" data-a="addf">Adicionar pergunta</button><button data-a="savef">Salvar formulário</button></div>`;
+}
+function frHtml(f,i){
+  return`<div class="fr" data-id="${esc(f.id)}"><div class="row"><input class="l fl" placeholder="Pergunta" maxlength="300" value="${esc(f.label)}"><select class="t" style="width:auto">${Object.entries(TYPES).map(t=>`<option value="${t[0]}" ${f.type===t[0]?'selected':''}>${t[1]}</option>`).join('')}</select></div>${['radio','checkbox','select'].includes(f.type)?`<textarea class="o" rows="3" placeholder="Uma opção por linha">${esc((f.options||[]).join('\n'))}</textarea>`:'<textarea class="o" hidden></textarea>'}<div class="row"><label class="opt"><input type="checkbox" class="r" ${f.required?'checked':''}>Obrigatória</label><button class="g" data-a="upf" data-v="${i}">Subir</button><button class="g" data-a="dnf" data-v="${i}">Descer</button><button class="d" data-a="delf" data-v="${i}">Remover</button></div></div>`;
+}
+function syncEd(){
+  const r=$('#ed');if(!r||!S.ed)return;
+  S.ed.title=$('#e_t').value.trim();S.ed.description=$('#e_d').value;
+  S.ed.fields=[...r.querySelectorAll('.fr')].map(x=>({id:x.dataset.id,type:x.querySelector('.t').value,label:x.querySelector('.l').value.trim(),required:x.querySelector('.r').checked,options:x.querySelector('.o').value.split('\n').map(s=>s.trim()).filter(Boolean)}));
+}
+async function saveForm(){
+  syncEd();
+  const e=S.ed;
+  if(!e.title)return toast('Informe o título.',1);
+  for(const f of e.fields){
+    if(!f.label)return toast('Há pergunta sem texto.',1);
+    if(['radio','checkbox','select'].includes(f.type)&&f.options.length<2)return toast(`Adicione ao menos 2 opções em: ${f.label}`,1);
+  }
+  if(S.busy)return;S.busy=true;
+  const {error}=await sb.from('forms').upsert({org:e.org,title:e.title,description:e.description,fields:e.fields},{onConflict:'org'});
+  S.busy=false;
+  if(error)return toast('Não foi possível salvar.',1);
+  Object.assign(S.forms[e.org],{title:e.title,description:e.description,fields:clone(e.fields)});
+  await log('formulário',`${e.org}: formulário salvo (${e.fields.length} perguntas)`);
+  toast('Formulário salvo.');
+}
+function tabCfg(){
+  $('#tb').innerHTML=`<h3 style="font-size:26px;margin-bottom:8px">Servidor</h3><div class="fr"><label class="f">Nome do site</label><input id="s_t" maxlength="80" value="${esc(S.settings.title)}"><label class="f">Foto do servidor (link https)</label><input id="s_i" value="${esc(S.settings.server_image)}"><div class="row"><button data-a="saves">Salvar servidor</button></div></div><h3 style="font-size:26px;margin:24px 0 8px">Editais</h3>${ORGS.map(o=>{const f=S.forms[o];return`<div class="fr" data-org="${o}"><h3 style="font-size:22px">${o}</h3><label class="opt"><input type="checkbox" class="p" ${f.published?'checked':''}>Edital no ar</label><label class="f">Foto (link https)</label><input class="im" value="${esc(f.image)}"><div class="row"><div class="fl"><label class="f">Abre em</label><input type="datetime-local" class="oa" value="${loc(f.opens_at)}"></div><div class="fl"><label class="f">Encerra em</label><input type="datetime-local" class="ca" value="${loc(f.closes_at)}"></div></div><label class="f">IDs dos cargos com acesso (separados por vírgula; vazio = qualquer membro)</label><input class="ro" value="${esc(f.role_ids.join(', '))}"><div class="row"><button data-a="saveo" data-v="${o}">Salvar ${o}</button></div></div>`}).join('')}`;
+}
+async function saveSrv(){
+  if(S.busy)return;
+  const t=$('#s_t').value.trim().slice(0,80)||'Editais',i=$('#s_i').value.trim();
+  if(i&&!safeUrl(i))return toast('A foto precisa começar com https://',1);
+  S.busy=true;
+  const {error}=await sb.from('settings').upsert({id:1,title:t,server_image:i});
+  S.busy=false;
+  if(error)return toast('Não foi possível salvar.',1);
+  S.settings.title=t;S.settings.server_image=i;header();log('configurações','Servidor atualizado');toast('Salvo.');
+}
+async function saveOrg(o){
+  if(S.busy)return;
+  const b=document.querySelector(`.fr[data-org="${o}"]`);
+  const im=b.querySelector('.im').value.trim();
+  if(im&&!safeUrl(im))return toast('A foto precisa começar com https://',1);
+  const oa=b.querySelector('.oa').value,ca=b.querySelector('.ca').value;
+  if(oa&&ca&&new Date(ca)<=new Date(oa))return toast('O encerramento deve ser depois da abertura.',1);
+  const p={org:o,published:b.querySelector('.p').checked,image:im,opens_at:oa?new Date(oa).toISOString():null,closes_at:ca?new Date(ca).toISOString():null,role_ids:b.querySelector('.ro').value.split(/[\s,]+/).filter(x=>/^\d+$/.test(x))};
+  S.busy=true;
+  const {error}=await sb.from('forms').upsert(p,{onConflict:'org'});
+  S.busy=false;
+  if(error)return toast('Não foi possível salvar.',1);
+  Object.assign(S.forms[o],p);
+  log('configurações',`${o}: ${p.published?'no ar':'fora do ar'}`);toast(`${o} salvo.`);
+}
+async function tabLogs(){
+  const t=$('#tb');t.innerHTML='<p class="who">Carregando...</p>';
+  const {data,error}=await sb.from('logs').select('*').order('created_at',{ascending:false}).limit(300);
+  if(error){t.innerHTML='<div class="msg">Falha ao carregar logs.</div>';return}
+  t.innerHTML=data&&data.length?`<div class="tw"><table><thead><tr><th>Data</th><th>ADM</th><th>Ação</th><th>Detalhe</th></tr></thead><tbody>${data.map(l=>`<tr><td>${fmt(l.created_at)}</td><td>${esc(l.actor)}</td><td>${esc(l.action)}</td><td>${esc(l.detail)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="who">Nenhum registro ainda.</p>';
+}
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-a]');if(!b)return;
+  const a=b.dataset.a,v=b.dataset.v;
+  if(a==='login'){await sb.auth.signInWithOAuth({provider:'discord',options:{scopes:'identify guilds guilds.members.read',redirectTo:location.origin+location.pathname}})}
+  else if(a==='logout'){sessionStorage.removeItem('pt');await sb.auth.signOut();location.reload()}
+  else if(a==='nav'){syncEd();S.view=v;render()}
+  else if(a==='open'){S.org=v;S.view='form';render();scrollTo(0,0)}
+  else if(a==='submit')submit();
+  else if(a==='tab'){syncEd();S.tab=v;render()}
+  else if(a==='status')setStatus(v,b.dataset.s);
+  else if(a==='csv')csv();
+  else if(a==='addf'){syncEd();S.ed.fields.push({id:uid(),type:'short',label:'',required:false,options:[]});tabBuild()}
+  else if(a==='delf'){syncEd();S.ed.fields.splice(+v,1);tabBuild()}
+  else if(a==='upf'){syncEd();const i=+v;if(i>0){[S.ed.fields[i-1],S.ed.fields[i]]=[S.ed.fields[i],S.ed.fields[i-1]];tabBuild()}}
+  else if(a==='dnf'){syncEd();const i=+v;if(i<S.ed.fields.length-1){[S.ed.fields[i+1],S.ed.fields[i]]=[S.ed.fields[i],S.ed.fields[i+1]];tabBuild()}}
+  else if(a==='savef')saveForm();
+  else if(a==='saves')saveSrv();
+  else if(a==='saveo')saveOrg(v);
+});
+document.addEventListener('change',ev=>{
+  const t=ev.target;
+  if(t.id==='ro'){S.respOrg=t.value;tabResp()}
+  else if(t.id==='rf')listResp();
+  else if(t.id==='eo'){S.edOrg=t.value;S.ed=null;tabBuild()}
+  else if(t.classList.contains('t')){syncEd();tabBuild()}
+});
+document.addEventListener('input',ev=>{if(ev.target.id==='rq')listResp()});
+init();
+</script>
+</body>
+</html>
