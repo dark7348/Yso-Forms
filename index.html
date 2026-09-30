@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050805">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-2lWMAKiv/5Ct1LoA7dVseCyGuOyedKiDSfeUrDjalU8=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https://tmbrsltapmoffvshepse.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dVxzSj5TDsGtkCyhLUJxPsKHsgT3VSaFpdxUsI4wcaY=' https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https://tmbrsltapmoffvshepse.supabase.co; base-uri 'none'; form-action 'none'; object-src 'none'">
 <title>Editais EB do Yso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,7 +188,7 @@ const PREFS=[
 ['Formulário',[['send_btn','Texto do botão de envio','text','Enviar respostas'],['confirm_send','Pedir confirmação antes de enviar','bool',true],['back_s','Voltar ao início depois de enviar (segundos, 0 = não voltar)','num',0],['req_note','Aviso de campos obrigatórios','text','* campo obrigatório']]],
 ['Abertura',[['ghost','Fantasmas na abertura','bool',true],['fog','Névoa na abertura','bool',true],['credits_on','Mostrar créditos na abertura','bool',true],['skipbtn','Botão Pular na abertura','bool',true]]],
 ['Aparência avançada',[['mw','Largura máxima do conteúdo','sel','1040',[['900','Estreita'],['1040','Padrão'],['1280','Larga']]],['gap','Espaço entre os cards','sel','18',[['10','Curto'],['18','Padrão'],['28','Grande']]],['blur','Vidro fosco no cabeçalho','bool',true],['fb','Fonte dos textos','sel','b',[['b','Barlow'],['s','Do sistema'],['g','Serifada']]],['fh','Fonte dos títulos','sel','c',[['c','Condensada'],['s','Do sistema'],['g','Serifada']]],['lh','Espaço entre linhas','sel','1.55',[['1.4','Compacto'],['1.55','Padrão'],['1.75','Aberto']]],['shadow','Sombras','bool',true],['lift','Cards sobem ao passar o mouse','bool',true],['shine','Reflexo passando nos cards','bool',true],['ls','Tamanho da foto do servidor','sel','46',[['36','Pequena'],['46','Padrão'],['64','Grande']]],['pulse','Foto do servidor pulsando','bool',true],['logo_on','Mostrar foto do servidor','bool',true],['flat','Botões de cor chapada (sem degradê)','bool',false],['hs','Tamanho do título da página inicial','sel','34',[['28','Pequeno'],['34','Padrão'],['48','Grande']]],['hc','Alto contraste','bool',false],['bigfocus','Contorno de foco grosso (teclado)','bool',false],['dense','Modo compacto (tabelas e painéis)','bool',false],['foot','Mostrar rodapé','bool',true]]],
-['Dados e painel',[['datefmt','Formato das datas','sel','full',[['full','Data e hora'],['date','Só a data']]],['tz','Fuso horário','sel','America/Sao_Paulo',[['America/Sao_Paulo','Brasília'],['America/Manaus','Manaus'],['America/Rio_Branco','Rio Branco'],['America/Noronha','Fernando de Noronha'],['UTC','UTC']]],['csv_bom','CSV compatível com Excel (BOM)','bool',true],['csv_name','Prefixo do nome do CSV','text','respostas'],['log_limit','Logs carregados','sel','500',[['200','200'],['500','500'],['1000','1000']]],['lbl_em','Nome do status "em análise"','text','Em análise'],['lbl_ap','Nome do status "aprovado"','text','Aprovado'],['lbl_re','Nome do status "reprovado"','text','Reprovado'],['rfilter','Filtro de status ao abrir Respostas','sel','',[['','Todos'],['em_analise','Em análise'],['aprovado','Aprovado'],['reprovado','Reprovado']]],['resp_open','Respostas já abertas na lista','bool',false],['show_ids','Mostrar ID do Discord na lista','bool',true]]],
+['Dados e painel',[['datefmt','Formato das datas','sel','full',[['full','Data e hora'],['date','Só a data']]],['tz','Fuso horário','sel','America/Sao_Paulo',[['America/Sao_Paulo','Brasília'],['America/Manaus','Manaus'],['America/Rio_Branco','Rio Branco'],['America/Noronha','Fernando de Noronha'],['UTC','UTC']]],['csv_bom','CSV compatível com Excel (BOM)','bool',true],['csv_name','Prefixo do nome do CSV','text','respostas'],['log_days','Retenção ao limpar logs (dias)','sel','90',[['30','30'],['90','90'],['180','180'],['365','365']]],['lbl_em','Nome do status "em análise"','text','Em análise'],['lbl_ap','Nome do status "aprovado"','text','Aprovado'],['lbl_re','Nome do status "reprovado"','text','Reprovado'],['rfilter','Filtro de status ao abrir Respostas','sel','',[['','Todos'],['em_analise','Em análise'],['aprovado','Aprovado'],['reprovado','Reprovado']]],['resp_open','Respostas já abertas na lista','bool',false],['show_ids','Mostrar ID do Discord na lista','bool',true]]],
 ['Formulário (extras)',[['star','Símbolo de campo obrigatório','text','*'],['ph_rbx','Texto de ajuda do campo Roblox','text','Usuário ou ID do Roblox'],['ph_dc','Texto de ajuda do campo Discord','text','@usuario ou ID'],['progress','Barra de progresso do preenchimento','bool',true],['draft','Guardar rascunho neste aparelho','bool',true]]],
 ['Painel ADM',[['tab0','Aba inicial do painel','sel','dash',[['dash','Visão geral'],['resp','Respostas'],['build','Construtor'],['cfg','Configurações'],['pref','Preferências'],['adm','ADMs'],['logs','Logs']]],['limit','Respostas carregadas por edital','sel','1000',[['500','500'],['1000','1000'],['2000','2000']]],['dash_d','Dias no indicador da Visão geral','sel','7',[['7','7'],['15','15'],['30','30']]],['rsort','Ordem padrão das respostas','sel','d',[['d','Mais recentes'],['a','Mais antigas']]],['csv_sep','Separador do CSV','sel',',',[[',','Vírgula'],[';','Ponto e vírgula (Excel BR)']]],['conf_status','Confirmar antes de mudar o status','bool',false],['toast_s','Duração dos avisos (segundos)','sel','4',[['2','2'],['4','4'],['7','7']]],['notice_k','Cor do aviso do topo','sel','ok',[['ok','Verde'],['warn','Amarelo'],['bad','Vermelho']]]]]
 ];
@@ -218,10 +218,21 @@ const loc=i=>{if(!i)return'';const d=new Date(i);return new Date(d-d.getTimezone
 const fmt=i=>i?new Date(i)[pv('datefmt')==='date'?'toLocaleDateString':'toLocaleString']('pt-BR',{timeZone:pv('tz')||'America/Sao_Paulo'}):'';
 const uid=()=>'q'+Math.random().toString(36).slice(2,9);
 const clone=o=>JSON.parse(JSON.stringify(o));
-let tt,dt,CUR=[];
+let tt,dt,lt,CUR=[];
 function toast(m,bad){const t=$('#toast');t.textContent=m;t.className=bad?'bad':'';t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',(+pv('toast_s')||4)*1000)}
 function defForm(o){return{max_responses:null,success_msg:'',org:o,title:o,description:'',image:'',published:false,opens_at:null,closes_at:null,role_ids:[],fields:[]}}
-async function log(action,detail){if(!S.admin)return;try{await sb.from('logs').insert({actor:S.name,actor_id:S.did,action,detail:String(detail||'').slice(0,500)})}catch(e){}}
+const rid=()=>(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2)).slice(0,36);
+async function log(action,detail,o={}){
+  if(!S.admin)return;
+  const row={actor:S.name,actor_id:S.did,action:String(action).slice(0,100),detail:String(detail||'').slice(0,500),severity:o.sev||'info',service:o.service||'painel',result:o.result||'ok',org:o.org||null,target:o.target?String(o.target).slice(0,100):null,target_id:o.tid?String(o.tid).slice(0,40):null,request_id:o.rid||rid(),reason:o.reason?String(o.reason).slice(0,300):null,old_val:o.before||null,new_val:o.after||null};
+  try{const {error}=await sb.from('logs').insert(row);if(error)throw error}catch(e){S.logFail=(S.logFail||0)+1}
+}
+async function evt(sev,action,detail,org,service,result){
+  if(!S.user||(S.evN=(S.evN||0)+1)>15)return;
+  try{await sb.rpc('log_event',{p_sev:sev,p_action:action,p_detail:String(detail||'').slice(0,500),p_org:org||null,p_service:service||'frontend',p_result:result||'erro',p_req:rid()})}catch(e){}
+}
+window.addEventListener('error',e=>{evt('error','erro no frontend',(e.message||'erro')+' @'+String(e.filename||'').split('/').pop()+':'+e.lineno,null,'frontend','erro')});
+window.addEventListener('unhandledrejection',e=>{evt('error','promessa rejeitada',String((e.reason&&e.reason.message)||e.reason||'').slice(0,200),null,'frontend','erro')});
 async function loadRoles(){
   S.roles=[];S.rolesOk=false;
   try{
@@ -230,7 +241,7 @@ async function loadRoles(){
     if(data&&data.member===false){S.warn='Você não está no servidor do Discord configurado.';return}
     if(data&&Array.isArray(data.roles)){S.roles=data.roles.map(String);S.rolesOk=true}
     else S.warn='Não foi possível verificar seus cargos agora. Tente novamente.';
-  }catch(e){S.warn='Não foi possível verificar seus cargos agora. Tente novamente.'}
+  }catch(e){S.warn='Não foi possível verificar seus cargos agora. Tente novamente.';evt('error','falha ao buscar cargos',String((e&&e.message)||e).slice(0,120),null,'edge-function','erro')}
 }
 async function loadData(){
   const [f,s]=await Promise.all([sb.from('forms').select('*'),sb.from('settings').select('*').eq('id',1).maybeSingle()]);
@@ -278,6 +289,7 @@ async function init(){
     await loadRoles();
     const a=await sb.rpc('is_admin');
     S.admin=a.data===true;
+    if(S.admin){const lv=await sb.rpc('is_log_viewer');S.logViewer=lv.data===true}
     S.dbg=`ID Discord lido: ${S.did||'(vazio)'} | ADM: ${S.admin?'sim':'não'} | consulta admins: ${a.error?(a.error.code||'erro'):'ok'} | cargos: ${S.rolesOk?S.roles.length+' encontrados':'não carregaram'}`;
     await loadData();
   }
@@ -355,24 +367,35 @@ function collect(f){
   }
   return{a};
 }
+function sendErr(e){
+  const c=e.code||'?';
+  if(c==='23505')return'Você já enviou uma resposta para este edital.';
+  if(c==='42501')return'O servidor recusou o envio: edital fora do ar, fora do prazo, lotado, em manutenção ou sem permissão. (cód. 42501)';
+  if(['42703','42883','42P01','P0001'].includes(c))return'Banco desatualizado: rode os SQLs do Supabase até o v7. (cód. '+c+')';
+  return'Não foi possível enviar. Tente de novo em instantes. (cód. '+c+')'+(S.admin&&e.message?' '+String(e.message).slice(0,120):'');
+}
 async function submit(){
   if(S.busy)return;
   const f=S.forms[S.org];
   if(!canAccess(f)||state(f)!=='open')return toast('Este edital não está disponível para você.',1);
+  if(!f.published)return toast('Este edital está em rascunho. Coloque no ar em Configurações para receber respostas.',1);
   const r=collect(f);if(r.err)return toast(r.err,1);
   if(pv('confirm_send')&&!confirm('Enviar suas respostas? Depois de enviar não dá para editar.'))return;
   S.busy=true;const b=$('#sb');if(b)b.disabled=true;
   const {error}=await sb.from('responses').insert({org:S.org,discord_id:S.did,discord_name:S.name,answers:r.a});
   S.busy=false;
-  if(error){if(b)b.disabled=false;return toast(error.code==='23505'?'Você já enviou uma resposta para este edital.':'Não foi possível enviar. O edital pode ter encerrado ou atingido o limite de respostas.',1)}
+  if(error){if(b)b.disabled=false;evt(error.code==='42501'?'warning':'error','envio recusado','cód '+(error.code||'?'),S.org,'supabase',(error.code==='42501'||error.code==='23505')?'negado':'erro');return toast(sendErr(error),1)}
   try{localStorage.removeItem(dk())}catch(x){}
   $('#app').innerHTML=`<section class="hero"><svg class="ck" viewBox="0 0 52 52" width="72" height="72" aria-hidden="true"><circle cx="26" cy="26" r="24" fill="none" stroke="var(--gr)" stroke-width="2"/><path d="M14 27l8 8 16-17" fill="none" stroke="var(--gr)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>Resposta enviada</h2><p>${esc(f.success_msg||'Sua inscrição foi registrada. Aguarde o contato da administração.')}</p><button data-a="nav" data-v="home">Voltar aos editais</button></section>`;
   if(+pv('back_s')>0)setTimeout(()=>{if(S.view==='form'&&$('.ck')){S.view='home';render()}},pv('back_s')*1000);
 }
 function renderAdmin(w){
-  const tabs=[['dash','Visão geral'],['resp','Respostas'],['build','Construtor'],['cfg','Configurações'],['pref','Preferências'],['adm','ADMs'],['logs','Logs']];
+  const tabs=[['dash','Visão geral'],['resp','Respostas'],['build','Construtor'],['cfg','Configurações'],['pref','Preferências'],['adm','ADMs']];
+  if(S.logViewer)tabs.push(['logs','Logs']);
+  if(S.tab==='logs'&&!S.logViewer)S.tab='dash';
   $('#app').innerHTML=w+`<div class="tabs">${tabs.map(t=>`<button class="g ${S.tab===t[0]?'act':''}" data-a="tab" data-v="${t[0]}">${t[1]}</button>`).join('')}</div><div id="tb"></div>`;
   if(S.tab==='dash')tabDash();else if(S.tab==='resp')tabResp();else if(S.tab==='build')tabBuild();else if(S.tab==='cfg')tabCfg();else if(S.tab==='pref')tabPref();else if(S.tab==='adm')tabAdm();else tabLogs();
+  alertBanner();
 }
 const orgSel=(id,v)=>`<select id="${id}" style="width:auto">${ORGS.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`;
 async function tabResp(){
@@ -397,7 +420,7 @@ async function setStatus(id,s){
   const {error}=await sb.from('responses').update({status:s}).eq('id',id);
   S.busy=false;
   if(error)return toast('Não foi possível alterar o status.',1);
-  if(r){await log('status',`${S.respOrg}: ${r.discord_name} (${r.discord_id}) de ${STL[r.status]} para ${STL[s]}`);r.status=s}
+  if(r){await log('status',`Status alterado de ${STL[r.status]} para ${STL[s]}`,{org:S.respOrg,target:r.discord_name,tid:r.discord_id,before:{status:r.status},after:{status:s}});r.status=s}
   listResp();toast('Status atualizado.');
 }
 function csv(){
@@ -435,7 +458,7 @@ async function saveForm(){
   S.busy=false;
   if(error)return toast('Não foi possível salvar.',1);
   Object.assign(S.forms[e.org],{title:e.title,description:e.description,fields:clone(e.fields)});
-  await log('formulário',`${e.org}: formulário salvo (${e.fields.length} perguntas)`);
+  await log('formulário',`Formulário salvo (${e.fields.length} perguntas)`,{org:e.org,after:{perguntas:e.fields.length}});
   toast('Formulário salvo.');
 }
 function tabCfg(){
@@ -456,24 +479,8 @@ async function saveSrv(){
 async function tabAdm(){
   const t=$('#tb');t.innerHTML='<p class="who">Carregando...</p>';
   const {data,error}=await sb.from('admins').select('discord_id').order('discord_id');
-  if(error){t.innerHTML='<div class="msg">Falha ao carregar ADMs. Rode o SQL novo no Supabase.</div>';return}
-  t.innerHTML=`<div class="row" style="margin-bottom:14px"><input id="ad_i" class="fl" inputmode="numeric" placeholder="ID numérico do Discord" maxlength="25"><button data-a="addadm">Adicionar ADM</button></div>${(data||[]).map(x=>`<div class="fr"><div class="row"><span class="fl">${esc(x.discord_id)}${x.discord_id===S.did?' (você)':''}</span>${x.discord_id===S.did?'':`<button class="d" data-a="deladm" data-v="${esc(x.discord_id)}">Remover</button>`}</div></div>`).join('')}`;
-}
-async function addAdm(){
-  const v=$('#ad_i').value.trim();
-  if(!/^\d{5,25}$/.test(v))return toast('ID inválido. Use só números.',1);
-  if(S.busy)return;S.busy=true;
-  const {error}=await sb.from('admins').insert({discord_id:v});
-  S.busy=false;
-  if(error)return toast(error.code==='23505'?'Esse ID já é ADM.':'Não foi possível adicionar.',1);
-  log('adm','Adicionou '+v);toast('ADM adicionado.');tabAdm();
-}
-async function delAdm(v){
-  if(S.busy||!confirm('Remover este ADM?'))return;S.busy=true;
-  const {error}=await sb.from('admins').delete().eq('discord_id',v);
-  S.busy=false;
-  if(error)return toast('Não foi possível remover.',1);
-  log('adm','Removeu '+v);toast('ADM removido.');tabAdm();
+  if(error){t.innerHTML='<div class="msg">Falha ao carregar ADMs.</div>';return}
+  t.innerHTML=`<div class="msg" style="border-color:var(--ln);color:var(--mu);background:transparent">Por segurança, ADMs só são adicionados ou removidos pelo SQL Editor do Supabase:<br><code>insert into public.admins (discord_id) values ('ID');</code><br><code>delete from public.admins where discord_id = 'ID';</code></div>${(data||[]).map(x=>`<div class="fr"><div class="row"><span class="fl">${esc(x.discord_id)}${x.discord_id===S.did?' (você)':''}</span></div></div>`).join('')}`;
 }
 async function delResp(id){
   if(S.busy||!confirm('Apagar esta resposta? Não dá para desfazer.'))return;S.busy=true;
@@ -482,7 +489,7 @@ async function delResp(id){
   S.busy=false;
   if(error)return toast('Não foi possível apagar.',1);
   S.resp=S.resp.filter(x=>String(x.id)!==String(id));
-  if(r)log('apagar',S.respOrg+': '+r.discord_name+' ('+r.discord_id+')');
+  if(r)log('apagar resposta','Resposta removida',{org:S.respOrg,target:r.discord_name,tid:r.discord_id,before:{status:r.status},sev:'warning'});
   listResp();toast('Resposta apagada.');
 }
 async function saveOrg(o){
@@ -497,20 +504,60 @@ async function saveOrg(o){
   const {error}=await sb.from('forms').upsert(p,{onConflict:'org'});
   S.busy=false;
   if(error)return toast('Não foi possível salvar.',1);
-  Object.assign(S.forms[o],p);
-  log('configurações',`${o}: ${p.published?'no ar':'fora do ar'}`);toast(`${o} salvo.`);
+  const bf={published:S.forms[o].published,max_responses:S.forms[o].max_responses};Object.assign(S.forms[o],p);
+  log('edital atualizado',`${o}: ${p.published?'no ar':'fora do ar'}`,{org:o,before:bf,after:{published:p.published,max_responses:p.max_responses}});toast(`${o} salvo.`);
 }
+const SEV={info:['Info','var(--mu)'],warning:['Aviso','var(--am)'],security:['Segurança','#a78bfa'],error:['Erro','var(--rd)'],critical:['Crítico','#ff3b30']};
+const LPS=50;
 async function tabLogs(){
-  const t=$('#tb');t.innerHTML='<p class="who">Carregando...</p>';
-  const {data,error}=await sb.from('logs').select('*').order('created_at',{ascending:false}).limit(+pv('log_limit')||500);
-  if(error){t.innerHTML='<div class="msg">Falha ao carregar logs.</div>';return}
-  S.logs=data||[];
-  t.innerHTML='<input id="lq" placeholder="Buscar nos logs" aria-label="Buscar nos logs" style="margin-bottom:12px"><div id="ll"></div>';
-  listLogs();
+  if(!S.logSeen){S.logSeen=1;log('acesso aos logs','Abriu o painel de logs')}
+  const so=(id,ph,list)=>`<select id="${id}" style="width:auto" aria-label="${ph}"><option value="">${ph}</option>${list.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select>`;
+  $('#tb').innerHTML=`<div id="lg"></div><div class="row" style="margin-bottom:12px">${so('lf_sev','Todos os níveis',Object.entries(SEV).map(e=>[e[0],e[1][0]]))}${so('lf_svc','Todos os serviços',['painel','formulario','frontend','supabase','edge-function','sistema'].map(x=>[x,x]))}${so('lf_org','Todos os editais',ORGS.map(o=>[o,o]))}${so('lf_res','Qualquer resultado',[['ok','OK'],['negado','Negado'],['erro','Erro']])}<select id="lf_per" style="width:auto" aria-label="Período"><option value="1">Última hora</option><option value="24" selected>Últimas 24 h</option><option value="168">7 dias</option><option value="720">30 dias</option><option value="0">Tudo</option></select><input id="lq" class="fl" placeholder="Buscar por quem, ID, ação, detalhe ou requisição" aria-label="Buscar nos logs"><button class="g" data-a="purge">Limpar logs antigos</button></div><div id="ll"></div>`;
+  loadLogs(1);loadGroups();
 }
-function listLogs(){
-  const q=$('#lq').value.toLowerCase(),l=S.logs.filter(x=>!q||JSON.stringify([x.actor,x.action,x.detail]).toLowerCase().includes(q));
-  $('#ll').innerHTML=l.length?`<div class="tw"><table><thead><tr><th>Data</th><th>ADM</th><th>Ação</th><th>Detalhe</th></tr></thead><tbody>${l.map(x=>`<tr><td>${fmt(x.created_at)}</td><td>${esc(x.actor)}</td><td>${esc(x.action)}</td><td>${esc(x.detail)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty"><h3>Nada por aqui</h3><p>Nenhum registro encontrado.</p></div>';
+function lgx(x){
+  const b=[];
+  if(x.reason)b.push('Motivo: '+x.reason);
+  if(x.old_val)b.push('Antes: '+JSON.stringify(x.old_val));
+  if(x.new_val)b.push('Depois: '+JSON.stringify(x.new_val));
+  if(x.request_id)b.push('Requisição: '+x.request_id);
+  return b.length?`<details><summary>Detalhes</summary><div class="who" style="overflow-wrap:anywhere">${b.map(esc).join('<br>')}</div></details>`:'';
+}
+async function loadLogs(pg){
+  const v=id=>$('#'+id).value;
+  let q=sb.from('logs').select('*',{count:'exact'}).order('created_at',{ascending:false}).range((pg-1)*LPS,pg*LPS-1);
+  if(v('lf_sev'))q=q.eq('severity',v('lf_sev'));
+  if(v('lf_svc'))q=q.eq('service',v('lf_svc'));
+  if(v('lf_org'))q=q.eq('org',v('lf_org'));
+  if(v('lf_res'))q=q.eq('result',v('lf_res'));
+  if(+v('lf_per'))q=q.gte('created_at',new Date(Date.now()-v('lf_per')*36e5).toISOString());
+  const t=v('lq').trim().replace(/[%,()*\\:]/g,' ').slice(0,60);
+  if(t)q=q.or(`actor.ilike.%${t}%,actor_id.ilike.%${t}%,action.ilike.%${t}%,detail.ilike.%${t}%,target.ilike.%${t}%,request_id.ilike.%${t}%`);
+  const {data,error,count}=await q;
+  const el=$('#ll');if(!el)return;
+  if(error){el.innerHTML='<div class="msg">Falha ao carregar logs. Rode o SQL v8 no Supabase.</div>';return}
+  const pages=Math.max(1,Math.ceil((count||0)/LPS));
+  el.innerHTML=(data&&data.length?`<div class="tw"><table><thead><tr><th>Data</th><th>Nível</th><th>Serviço</th><th>Ação</th><th>Quem</th><th>Alvo</th><th>Resultado</th><th>Detalhe</th></tr></thead><tbody>${data.map(x=>{const s=SEV[x.severity]||SEV.info;return`<tr><td>${fmt(x.created_at)}</td><td><b style="color:${s[1]}">${s[0]}</b></td><td>${esc(x.service)}</td><td>${esc(x.action)}</td><td>${esc(x.actor)}<br><span class="who">${esc(x.actor_id)}</span></td><td>${esc(x.target||'')}${x.target_id?`<br><span class="who">${esc(x.target_id)}</span>`:''}${x.org?`<br><span class="who">${esc(x.org)}</span>`:''}</td><td>${esc(x.result)}</td><td>${esc(x.detail)}${lgx(x)}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty"><h3>Nada por aqui</h3><p>Nenhum registro com esses filtros.</p></div>')+`<div class="row" style="margin-top:12px"><button class="g" data-a="lpg" data-v="${pg-1}" ${pg<=1?'disabled':''}>Anterior</button><span class="who">Página ${pg} de ${pages} · ${count||0} registros</span><button class="g" data-a="lpg" data-v="${pg+1}" ${pg>=pages?'disabled':''}>Próxima</button></div>`;
+}
+async function loadGroups(){
+  const {data}=await sb.rpc('log_groups',{p_min:60});
+  const el=$('#lg');if(!el)return;
+  el.innerHTML=data&&data.length?`<div class="msg" style="margin-bottom:12px"><b>Padrões na última hora</b><br>${data.map(x=>`${x.n}× ${esc(x.action)} (${esc((SEV[x.severity]||SEV.info)[0])}, ${esc(x.service)})`).join('<br>')}</div>`:'';
+}
+async function purge(){
+  const d=+pv('log_days')||90;
+  if(S.busy||!confirm('Apagar logs com mais de '+d+' dias? Eventos de segurança e críticos são preservados. Esta ação será registrada.'))return;
+  S.busy=true;
+  const {data,error}=await sb.rpc('logs_purge',{p_days:d});
+  S.busy=false;
+  if(error)return toast('Não foi possível limpar os logs.',1);
+  toast((data||0)+' registros removidos.');loadLogs(1);
+}
+async function alertBanner(){
+  if(!S.logViewer)return;
+  const {count}=await sb.from('logs').select('id',{count:'exact',head:true}).in('severity',['security','critical']).gte('created_at',new Date(Date.now()-864e5).toISOString());
+  const t=$('#tb');
+  if(count&&t){const d=document.createElement('div');d.className='msg';d.setAttribute('role','alert');d.style.cssText='border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,.08)';d.textContent=count+' alerta(s) de segurança nas últimas 24 h. Veja em Logs, filtrando por Segurança.';t.before(d)}
 }
 async function tabDash(){
   const t=$('#tb');t.innerHTML='<div class="grid"><div class="sk"></div><div class="sk"></div></div>';
@@ -575,7 +622,7 @@ async function bulk(st){
   S.busy=false;
   if(error)return toast('Não foi possível atualizar.',1);
   S.resp.forEach(r=>{if(ids.includes(String(r.id)))r.status=st});
-  log('status em lote',S.respOrg+': '+ids.length+' resposta(s) para '+STL[st]);
+  log('status em lote',ids.length+' resposta(s) para '+STL[st],{org:S.respOrg,after:{status:st,total:ids.length}});
   listResp();toast(ids.length+' resposta(s) atualizadas.');
 }
 async function saveNote(id){
@@ -630,9 +677,11 @@ document.addEventListener('click',async ev=>{
   else if(a==='savef')saveForm();
   else if(a==='saves')saveSrv();
   else if(a==='saveo')saveOrg(v);
-  else if(a==='addadm')addAdm();
+
   else if(a==='skip'){const e=$('#splash');if(e)e.remove()}
   else if(a==='savepf')savePf(false);
+  else if(a==='lpg')loadLogs(+v);
+  else if(a==='purge')purge();
   else if(a==='rstpf')savePf(true);
   else if(a==='swatch'){$('#s_a').value=v}
   else if(a==='preview'){S.org=S.edOrg;S.view='form';render();scrollTo(0,0)}
@@ -642,7 +691,7 @@ document.addEventListener('click',async ev=>{
   else if(a==='savenote')saveNote(v);
   else if(a==='cpform'){syncEd();const f=S.forms[$('#cp').value];if(f&&confirm('Substituir as perguntas atuais pelas de '+f.org+'?')){S.ed.fields=clone(f.fields).map(x=>({...x,id:uid()}));tabBuild()}}
   else if(a==='expbk')expBk();
-  else if(a==='deladm')delAdm(v);
+
   else if(a==='delresp')delResp(v);
 });
 document.addEventListener('change',ev=>{
@@ -650,10 +699,11 @@ document.addEventListener('change',ev=>{
   if(t.id==='ro'){S.respOrg=t.value;tabResp()}
   else if(t.id==='rf'||t.id==='rs')listResp();
   else if(t.id==='eo'){S.edOrg=t.value;S.ed=null;tabBuild()}
+  else if(t.id&&t.id.startsWith('lf_'))loadLogs(1);
   else if(t.id==='bk'){impBk(t.files[0]);t.value=''}
   else if(t.classList.contains('t')){syncEd();tabBuild()}
 });
-document.addEventListener('input',ev=>{if(ev.target.id==='rq')listResp();else if(ev.target.id==='lq')listLogs();else if(ev.target.closest&&ev.target.closest('#fm')){prog();clearTimeout(dt);dt=setTimeout(saveDraft,400)}});
+document.addEventListener('input',ev=>{if(ev.target.id==='rq')listResp();else if(ev.target.id==='lq'){clearTimeout(lt);lt=setTimeout(()=>loadLogs(1),350)}else if(ev.target.closest&&ev.target.closest('#fm')){prog();clearTimeout(dt);dt=setTimeout(saveDraft,400)}});
 (()=>{const e=$('#splash');if(!e)return;if(sessionStorage.getItem('sp')){e.remove();return}sessionStorage.setItem('sp','1');e.addEventListener('animationend',v=>{if(v.animationName==='spOut')e.remove()});setTimeout(()=>e.remove(),9500)})();
 let raf=0;
 document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('button.card');if(!c||raf)return;raf=requestAnimationFrame(()=>{raf=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')})});
