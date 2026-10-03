@@ -209,7 +209,24 @@ const STL={em_analise:'Em análise',aprovado:'Aprovado',reprovado:'Reprovado'};
 const configured=!/COLE_AQUI/.test(CFG.url+CFG.key);
 const sb=configured?supabase.createClient(CFG.url,CFG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const DEBUG=new URLSearchParams(location.search).has('debug');
-const S={dbg:'',user:null,did:'',name:'',roles:[],rolesOk:false,admin:false,forms:{},settings:{title:'Editais EB do Yso',server_image:'',credits:'Urahara/RBL Tuber93_hat',intro_on:true,intro_title:'',intro_sub:'Sistema de inscrições e seleção',accent:'#43d16a',login_text:'Entre com sua conta do Discord para ver os editais abertos para os seus cargos.',footer:'',notice:'',maintenance:false,maintenance_msg:'O site está em manutenção. Volte em breve.'},view:'home',org:null,tab:'dash',ed:null,edOrg:'SGEx',resp:[],respOrg:'SGEx',logs:[],busy:false,warn:''};
+const S={dbg:'',user:null,did:'',name:'',roles:[],rolesOk:false,admin:false,forms:{},settings:{title:'Editais EB do Yso',server_image:'',credits:'Urahara/RBL Tuber93_hat',intro_on:true,intro_title:'',intro_sub:'Sistema de inscrições e seleção',accent:'#43d16a',login_text:'Entre com sua conta do Discord para ver os editais abertos para os seus cargos.',footer:'',notice:'',maintenance:false,maintenance_msg:'O site está em manutenção. Volte em breve.'},view:'home',org:null,tab:'dash',ed:null,edOrg:'SGEx',resp:[],respOrg:'SGEx',logs:[],busy:false,warn:'',ordNum:true};
+try{S.ordNum=localStorage.getItem('ordnum_resp')!=='0'}catch(x){S.ordNum=true}
+function ordFn(){
+  const f=S.forms[S.respOrg],ix=new Map(((f&&f.fields)||[]).map((q,i)=>[q.id,i]));
+  const n=t=>{const m=/^\s*(\d+)\s*[).:\-–]/.exec(String(t||''));return m?+m[1]:0};
+  return(a,b)=>{
+    const na=n(a.q),nb=n(b.q);
+    if(!na!==!nb)return na?1:-1;
+    if(na!==nb)return na-nb;
+    const pa=ix.has(a.k)?ix.get(a.k):1e6,pb=ix.has(b.k)?ix.get(b.k):1e6;
+    return pa-pb||(a.k<b.k?-1:a.k>b.k?1:0);
+  };
+}
+function ordAns(r){
+  const l=Object.entries(r.answers||{}).map(([k,x])=>({k,q:x&&x.q,x}));
+  if(S.ordNum)l.sort(ordFn());
+  return l.map(i=>i.x);
+}
 const $=(s,r=document)=>r.querySelector(s);
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=u=>/^(https:\/\/|data:image\/)/.test(u||'')?u:'';
@@ -403,14 +420,14 @@ async function tabResp(){
   const {data,error}=await sb.from('responses').select('*').eq('org',S.respOrg).order('created_at',{ascending:false}).limit(+pv('limit')||1000);
   if(error){t.innerHTML='<div class="msg">Falha ao carregar respostas.</div>';return}
   S.resp=data||[];
-  t.innerHTML=`<div class="row" style="margin-bottom:12px">${orgSel('ro',S.respOrg)}<select id="rf" style="width:auto"><option value="">Todos os status</option>${Object.entries(STL).map(e=>`<option value="${e[0]}" ${pv('rfilter')===e[0]?'selected':''}>${e[1]}</option>`).join('')}</select><input id="rq" class="fl" placeholder="Buscar por nome, ID ou resposta"><button class="g" data-a="csv">Exportar CSV</button><button class="g" data-a="cpids">Copiar IDs</button><select id="rs" style="width:auto" aria-label="Ordenar"><option value="d">Mais recentes</option><option value="a" ${pv('rsort')==='a'?'selected':''}>Mais antigas</option></select></div><div class="row" style="margin-bottom:12px"><button class="g" data-a="selall">Selecionar filtrados</button>${Object.entries(STL).map(e=>`<button class="g" data-a="bulk" data-s="${e[0]}">${e[1]} selecionados</button>`).join('')}</div><div id="rl"></div>`;
+  t.innerHTML=`<div class="row" style="margin-bottom:12px">${orgSel('ro',S.respOrg)}<select id="rf" style="width:auto"><option value="">Todos os status</option>${Object.entries(STL).map(e=>`<option value="${e[0]}" ${pv('rfilter')===e[0]?'selected':''}>${e[1]}</option>`).join('')}</select><input id="rq" class="fl" placeholder="Buscar por nome, ID ou resposta"><button class="g" data-a="csv">Exportar CSV</button><button class="g" data-a="cpids">Copiar IDs</button><button class="g" id="ob" data-a="ordnum">${S.ordNum?'Ordem: 1 → N':'Ordem: original'}</button><select id="rs" style="width:auto" aria-label="Ordenar"><option value="d">Mais recentes</option><option value="a" ${pv('rsort')==='a'?'selected':''}>Mais antigas</option></select></div><div class="row" style="margin-bottom:12px"><button class="g" data-a="selall">Selecionar filtrados</button>${Object.entries(STL).map(e=>`<button class="g" data-a="bulk" data-s="${e[0]}">${e[1]} selecionados</button>`).join('')}</div><div id="rl"></div>`;
   listResp();
 }
 function listResp(){
   const st=$('#rf').value,q=$('#rq').value.toLowerCase();
   const l=CUR=S.resp.filter(r=>(!st||r.status===st)&&(!q||JSON.stringify([r.discord_name,r.discord_id,r.answers]).toLowerCase().includes(q)));
   if($('#rs').value==='a')l.reverse();
-  $('#rl').innerHTML=`<p class="who" style="margin-bottom:8px">${l.length} de ${S.resp.length}</p>`+(l.length?l.map(r=>`<details ${pv('resp_open')?'open':''}><summary><input type="checkbox" class="sel" value="${r.id}" aria-label="Selecionar resposta" style="width:auto;margin-right:8px">${esc(r.discord_name)}${pv('show_ids')?' · '+esc(r.discord_id):''} · <span class="st ${esc(r.status)}">${esc(STL[r.status]||r.status)}</span> · ${fmt(r.created_at)}</summary><div class="ans">${Object.values(r.answers||{}).map(x=>`<div><b>${esc(x.q)}</b>${esc(Array.isArray(x.v)?x.v.join(', '):x.v)}</div>`).join('')}</div><label class="f">Nota interna (só ADMs)</label><textarea class="nt" rows="2" maxlength="1000" data-id="${r.id}">${esc(r.note)}</textarea><div class="row" style="margin-top:12px"><button class="g" data-a="savenote" data-v="${r.id}">Salvar nota</button>${Object.entries(STL).map(e=>`<button class="${r.status===e[0]?'':'g'}" data-a="status" data-v="${r.id}" data-s="${e[0]}">${e[1]}</button>`).join('')}<button class="d" data-a="delresp" data-v="${r.id}">Apagar</button></div></details>`).join(''):'<div class="empty"><h3>Nenhuma resposta</h3><p>Ajuste os filtros ou aguarde novas inscrições.</p></div>');
+  $('#rl').innerHTML=`<p class="who" style="margin-bottom:8px">${l.length} de ${S.resp.length}</p>`+(l.length?l.map(r=>`<details ${pv('resp_open')?'open':''}><summary><input type="checkbox" class="sel" value="${r.id}" aria-label="Selecionar resposta" style="width:auto;margin-right:8px">${esc(r.discord_name)}${pv('show_ids')?' · '+esc(r.discord_id):''} · <span class="st ${esc(r.status)}">${esc(STL[r.status]||r.status)}</span> · ${fmt(r.created_at)}</summary><div class="ans">${ordAns(r).map(x=>`<div><b>${esc(x.q)}</b>${esc(Array.isArray(x.v)?x.v.join(', '):x.v)}</div>`).join('')}</div><label class="f">Nota interna (só ADMs)</label><textarea class="nt" rows="2" maxlength="1000" data-id="${r.id}">${esc(r.note)}</textarea><div class="row" style="margin-top:12px"><button class="g" data-a="savenote" data-v="${r.id}">Salvar nota</button>${Object.entries(STL).map(e=>`<button class="${r.status===e[0]?'':'g'}" data-a="status" data-v="${r.id}" data-s="${e[0]}">${e[1]}</button>`).join('')}<button class="d" data-a="delresp" data-v="${r.id}">Apagar</button></div></details>`).join(''):'<div class="empty"><h3>Nenhuma resposta</h3><p>Ajuste os filtros ou aguarde novas inscrições.</p></div>');
 }
 async function setStatus(id,s){
   if(!STL[s]||S.busy)return;
@@ -425,6 +442,7 @@ async function setStatus(id,s){
 }
 function csv(){
   const qs=[];S.resp.forEach(r=>Object.entries(r.answers||{}).forEach(([k,x])=>{if(!qs.find(y=>y[0]===k))qs.push([k,x.q])}));
+  if(S.ordNum){const c=ordFn();qs.sort((a,b)=>c({k:a[0],q:a[1]},{k:b[0],q:b[1]}))}
   const c=v=>{let s=String(v??'');if(/^[=+\-@]/.test(s))s="'"+s;return'"'+s.replace(/"/g,'""')+'"'};
   const rows=[['Data','Discord','ID','Status','Nota',...qs.map(q=>q[1])].map(c).join(pv('csv_sep')||',')];
   S.resp.forEach(r=>rows.push([fmt(r.created_at),r.discord_name,r.discord_id,STL[r.status]||r.status,r.note||'',...qs.map(q=>{const x=(r.answers||{})[q[0]];return x?(Array.isArray(x.v)?x.v.join('; '):x.v):''})].map(c).join(pv('csv_sep')||',')));
@@ -670,6 +688,7 @@ document.addEventListener('click',async ev=>{
   else if(a==='tab'){syncEd();S.tab=v;render()}
   else if(a==='status')setStatus(v,b.dataset.s);
   else if(a==='csv')csv();
+  else if(a==='ordnum'){S.ordNum=!S.ordNum;try{localStorage.setItem('ordnum_resp',S.ordNum?'1':'0')}catch(x){}b.textContent=S.ordNum?'Ordem: 1 → N':'Ordem: original';listResp()}
   else if(a==='addf'){syncEd();S.ed.fields.push({id:uid(),type:'short',label:'',required:false,options:[]});tabBuild()}
   else if(a==='delf'){syncEd();S.ed.fields.splice(+v,1);tabBuild()}
   else if(a==='upf'){syncEd();const i=+v;if(i>0){[S.ed.fields[i-1],S.ed.fields[i]]=[S.ed.fields[i],S.ed.fields[i-1]];tabBuild()}}
